@@ -1,0 +1,27 @@
+﻿@model AppMVC.Models.StudentsViewModel
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombres</th>
+            <th>Edad</th>
+            <th>Carrera</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.StudentList.Count; i++)
+        {
+            <tr>
+                <td>
+                    @Model.StudentList[i].Name
+                </td>
+                <td>
+                    @Model.StudentList[i].Age
+                </td>
+                <td>
+                    @Model.StudentList[i].Career
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
