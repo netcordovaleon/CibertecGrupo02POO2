@@ -1,0 +1,52 @@
+﻿@using AppStore.DataAccess.Entities;
+@model List<ProductEntity>
+
+@{
+    ViewData["Title"] = "ListProducts";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Listado de Productos</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <a class="btn btn-primary" asp-controller="Product" asp-action="AddProduct" >Añadir nuevo producto</a>
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            Codigo
+        </th>
+        <th>
+            Nombre
+        </th>
+        <th>
+            Stock
+        </th>
+        <th>
+            Precio
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Id
+            </td>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Stock
+            </td>
+            <td>
+                @item.Price
+            </td>
+        </tr>
+    }
+</table>
+
