@@ -1,17 +1,25 @@
 ﻿@using AppStore.DataAccess.Entities;
 
 @model ProductEntity
-
 @{
-    ViewData["Title"] = "AddProduct";
+    ViewData["Title"] = "EditProduct";
 }
 
+
 <div class="text-center">
-    <h1 class="display-4">Agregar producto</h1>
+    <h1 class="display-4">Editar producto</h1>
 </div>
 
 
-<form asp-action="AddProductPost" method="post">
+<form asp-action="EditProductPost" method="post">
+    
+    <div class="row mt-3">
+        <div class="col-md-3">
+            <label>Codigo</label>
+            <input type="text" class="form-control" asp-for="Id" readonly="readonly" />
+        </div>
+    </div>
+     
     <div class="row mt-3">
         <div class="col-md-6">
             <label>Nombre</label>
@@ -36,7 +44,7 @@
     <div class="row mt-3">
 
         <div class="col-md-12">
-            <button type="submit" class="btn btn-primary">Registrar</button>&nbsp;
+            <button type="submit" class="btn btn-primary">Actualizar</button>&nbsp;
             <button class="btn btn-secondary">Cancelar</button>
         </div>
 

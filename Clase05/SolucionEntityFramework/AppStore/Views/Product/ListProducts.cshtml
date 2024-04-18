@@ -29,6 +29,9 @@
         <th>
             Precio
         </th>
+        <th>
+            Operaciones
+        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -45,6 +48,13 @@
             </td>
             <td>
                 @item.Price
+            </td>
+            <td>
+                <a class="btn btn-warning" asp-controller="Product" asp-action="EditProduct" asp-route-id="@item.Id"><i class="fa-solid fa-pencil"></i></a>
+
+                <a class="btn btn-danger" onclick="return confirm('Seguro que deseas eliminar');" asp-controller="Product" asp-action="DeleteProduct" asp-route-id="@item.Id"><i class="fa-solid fa-trash-can"></i> </a>
+                
+
             </td>
         </tr>
     }

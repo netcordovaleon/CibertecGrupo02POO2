@@ -10,7 +10,7 @@ namespace AppStore.DataAccess.Entities
         [Column("PRODUCTNAME")]
         public string Name { get; set; }
         [Column("PRODUCTSTOCK")]
-        public int Stock { get; set; }
+        public int Stock { get; set; } 
         [Column("PRODUCTPRICE")]
         public decimal Price { get; set; }
         [Column("REGISTERDATE")]
@@ -18,4 +18,5 @@ namespace AppStore.DataAccess.Entities
         [Column("RECORDSTATUS")]
         public bool Status { get; set; }
     }
+    //int, string, double, boolean
 }
