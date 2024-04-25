@@ -1,0 +1,72 @@
+﻿@using AppStore.DataAccess.Entities;
+@model List<ProductEntity>
+
+@{
+    ViewData["Title"] = "ListProducts";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Listado de Productos</h1>
+</div>
+
+@if (TempData["ProductName"] != null) {
+    <div class="bg-success text-white">
+        <div class="row">
+            <div class="col-md-12">
+                <p>El registro del producto se realizo satisfactoriamente</p>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <a class="btn btn-primary" asp-controller="Product" asp-action="AddProduct" >Añadir nuevo producto</a>
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            Codigo
+        </th>
+        <th>
+            Nombre
+        </th>
+        <th>
+            Stock
+        </th>
+        <th>
+            Precio
+        </th>
+        <th>
+            Operaciones
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Id
+            </td>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Stock
+            </td>
+            <td>
+                @item.Price
+            </td>
+            <td>
+                <a class="btn btn-warning" asp-controller="Product" asp-action="EditProduct" asp-route-id="@item.Id"><i class="fa-solid fa-pencil"></i></a>
+
+                <a class="btn btn-danger" onclick="return confirm('Seguro que deseas eliminar');" asp-controller="Product" asp-action="DeleteProduct" asp-route-id="@item.Id"><i class="fa-solid fa-trash-can"></i> </a>
+                
+
+            </td>
+        </tr>
+    }
+</table>
+

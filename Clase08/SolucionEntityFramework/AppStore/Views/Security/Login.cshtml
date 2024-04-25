@@ -1,0 +1,24 @@
+﻿@model AppStore.Models.LoginViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+<body>
+
+    <h2>Acceso</h2>
+
+    <form method="post" asp-action="LoginPost">
+        <input type="text" asp-for="User" placeholder="Ingrese usuario" /> <br />
+        <input type="password" asp-for="Password" placeholder="Ingrese password" /> <br />
+        <button type="submit">Acceder</button>
+    </form>
+
+</body>
+</html>
