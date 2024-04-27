@@ -1,0 +1,180 @@
+﻿@using AppStore.DataAccess.Entities;
+@model List<ProductEntity>
+
+@{
+    ViewData["Title"] = "ListProducts";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Listado de Productos</h1>
+</div>
+
+@if (TempData["ProductName"] != null) {
+    <div class="bg-success text-white">
+        <div class="row">
+            <div class="col-md-12">
+                <p>El registro del producto se realizo satisfactoriamente</p>
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <p>
+            <span>El total de productos encontrados (sin Ajax) es: @(TempData["TotalRegistros"] == null ? "0" : TempData["TotalRegistros"])</span>
+        </p>
+
+        <p>
+            <span>El total de productos encontrados (con Ajax) es: <label id="lblTotalProdAjax"></label></span>
+        </p>
+    </div>
+
+</div>
+
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <a class="btn btn-primary" asp-controller="Product" asp-action="AddProduct" >Añadir nuevo producto</a>
+    </div>
+
+    <div class="col-md-4">
+
+        <form method="get" asp-action="PostObtenerTotalDeProductos">
+            <button class="btn btn-primary" type="submit" >Contar productos sin Ajax</button>
+        </form>
+
+    </div>
+
+
+    <div class="col-md-4">
+        <button class="btn btn-primary" type="button" id="btnContarConAjax">Contar productos sin Ajax</button>
+    </div>
+
+</div>
+
+<table class="table" id="tblResultado">
+    <thead>
+    <tr>
+        <th>
+            Codigo
+        </th>
+        <th>
+            Nombre
+        </th>
+        <th>
+            Stock
+        </th>
+        <th>
+            Precio
+        </th>
+        <th>
+            Operaciones
+        </th>
+    </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Id
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.Stock
+                </td>
+                <td>
+                    @item.Price
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-controller="Product" asp-action="EditProduct" asp-route-id="@item.Id"><i class="fa-solid fa-pencil"></i></a>
+
+                    <a class="btn btn-danger" onclick="return confirm('Seguro que deseas eliminar');" asp-controller="Product" asp-action="DeleteProduct" asp-route-id="@item.Id"><i class="fa-solid fa-trash-can"></i> </a>
+                
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div class="row mt-4">
+
+    <div class="col-md-12">
+        <input type="text" class="form-control" id="txtBusqueda" />
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+        
+        //alert('Pagina aun no carga');
+
+        $(document).ready(function() {
+
+
+            $("#txtBusqueda").keyup(function () {
+
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetProductsByAjax","Product")' + '?filtro=' + $("#txtBusqueda").val(),
+                    success: function(data) {
+                        $("#tblResultado tbody").empty();
+                        data.forEach((item)=> {
+                            let htmlRow = "";
+                            htmlRow+= "<tr>";
+                            htmlRow += "<td>" + item.id + "</td>";
+                            htmlRow += "<td>" + item.name + "</td>";
+                            htmlRow += "<td>" + item.stock + "</td>";
+                            htmlRow += "<td>" + item.price + "</td>";
+                            htmlRow += "<td>Bottones</td>";
+                            htmlRow += "</tr>";
+                            $("#tblResultado tbody").append(htmlRow);
+                        })
+                    },
+                    error: function() {
+                    }
+                });
+                
+            })
+
+            //alert('Pagina cargada por completo');
+            //Todo lo que necesitas hacer cuando la pagina ya se encuentra cargada por completo
+
+            $("#btnContarConAjax").click(()=> {
+                //alert('Estoy en el evento del boton');
+
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetTotalDeProductosAjax","Product")',
+                    success: function(data) {
+                        //Si sale todo perfecto quiero que....
+                        //alert('la comunicacion fue exitosa');
+
+                        $("#lblTotalProdAjax").text(data);
+
+                    },
+                    error: function() {
+                        //Que pasara si la comunicacion no se puede realizar
+                        alert('error, no nos podemos comunicar con el controlador');
+                    }
+                });
+            })
+    
+        });
+
+
+
+    </script>
+
+}
+
