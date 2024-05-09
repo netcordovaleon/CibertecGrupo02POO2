@@ -21,6 +21,14 @@ namespace CiberStore.Controllers
             return View(model);
         }
 
+        public IActionResult OrderGenerated(int orderId)
+        {
+            var model = new OrderDetailViewModel();
+            model.ProductsToConfirm = HttpContext.Session.GetList<TemporalShoppingCarViewModel>("ProductsCar");
+            ViewBag.OrderId = orderId;
+            return View(model);
+        }
+
         [HttpGet]
         public JsonResult GetClientByIdentityNumber(string identityNumber) {
             var client = _context.Client.Where(c => c.IdentityNumber == identityNumber).SingleOrDefault();
@@ -56,7 +64,7 @@ namespace CiberStore.Controllers
             }
             _context.SaveChanges();
 
-            return Json(new { message = $"La orden #{orderInDB.Entity.Id} fue creada con exito." });
+            return Json(new { message = $"La orden #{orderInDB.Entity.Id} fue creada con exito.", orderId = orderInDB.Entity.Id });
 
         }
     }

@@ -118,6 +118,7 @@
                 data: $("#frmClient").serializeArray(),
                 success: (data) => {
                     alert(data.message);
+                    window.location.href = `@Url.Action("OrderGenerated","Order")?orderId=${data.orderId}`;
                 },
                 error: (e) => {
                 }
