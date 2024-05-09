@@ -1,0 +1,38 @@
+﻿@model ProductCatalogViewModel
+@{
+    ViewData["Title"] = "ProductDetail";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Product Detail</h1>
+</div>
+
+<hr />
+
+<div class="row mt-5">
+
+    <div class="col-md-4">
+
+        <img src="@Model.Image" style="width:100%; height:600px;" />
+
+    </div>
+
+    <div class="col-md-8">
+
+        <h2 class="display-6">@Model.Name</h2>
+
+        <p>
+            Solo por hoy el precio es de S/. @Model.Price solo nos queda en stock @Model.Stock
+        </p>
+
+        <br />
+
+        <button class="btn btn-primary">Añadir</button>
+
+        <a asp-action="Index" asp-controller="Product" class="btn btn-secondary">Volver</a>
+
+
+    </div>
+
+
+</div>

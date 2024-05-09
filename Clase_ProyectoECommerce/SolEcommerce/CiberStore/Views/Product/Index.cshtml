@@ -1,0 +1,59 @@
+﻿@model List<ProductCatalogViewModel>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Catalog</h1>
+</div>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4">
+
+            <center>
+                <div class="card mt-4" style="width: 18rem;">
+                    <center>
+                        <img src="@item.Image" class="card-img-top" alt="..." style="width:200px; height:200px;">
+                    </center>
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+                        <p class="card-text">@item.Stock / @item.Price</p>
+                        <a onclick="addProduct(@item.Id)" class="btn btn-primary">Añadir</a>&nbsp;&nbsp;
+                        <a asp-action="ProductDetail" asp-controller="Product" asp-route-id="@item.Id" class="btn btn-secondary">Ver detalle</a>
+                    </div>
+                </div>
+            </center>
+
+        </div>
+    }
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+        const addProduct = (idPage)=> {
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("AddTemporalProduct","Product")',
+                data: { id: idPage },
+                success: (result)=> {
+                    alert(result.message);
+                },
+                error: ()=> {
+                }
+
+            })
+
+        
+        }
+
+
+    </script>
+
+}
+

@@ -1,0 +1,129 @@
+﻿@model OrderDetailViewModel
+@{
+    ViewData["Title"] = "ShoppingCar";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Order Detail</h1>
+</div>
+
+<div class="row">
+
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (Model.ProductsToConfirm != null)
+                {
+                    @foreach (var item in Model.ProductsToConfirm)
+                    {
+                        <tr>
+                            <td><img src="@item.ProductImage" style="width:100px; height:100px;" /></td>
+                            <td>@item.ProductName</td>
+                            <td>@item.Price</td>
+                            <td>@item.Quantity</td>
+                            <td>@(item.Price * item.Quantity)</td>
+                        </tr>
+                    }
+                } else {
+                    <tr>
+                        <td colspan="5">No hay información</td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<form id="frmClient">
+    <div class="row mt-5">
+        <div class="col-md-8">
+            <label>DNI</label>
+            <input type="text" class="form-control" asp-for="Client.IdentityNumber" id="IdentityNumber" />
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-8">
+            <label>Nombres</label>
+            <input type="text" class="form-control" asp-for="Client.FullName" />
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-8">
+            <label>Delivery</label>
+            <input type="text" class="form-control" asp-for="Client.DeliveryAddress" />
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-8">
+            <button id="btnConfirm" type="button" class="btn btn-primary">Confirmar orden</button>
+        </div>
+    </div>
+
+</form>
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(()=> {
+            $("#IdentityNumber").blur(()=> {
+                if ($("#IdentityNumber").val().length == 8) {
+                    getClientByIdentityNumber();
+                }
+            });
+
+            $("#btnConfirm").click(()=> {
+                confirmOrder();
+            });
+        })
+
+
+        const getClientByIdentityNumber = () => {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetClientByIdentityNumber","Order")' + '?identityNumber=' + $("#IdentityNumber").val(),
+                success: (data) => {
+                    console.log(data);
+                    if (data != null) {
+                        $("#Client_FullName").val(data.fullName);
+                        $("#Client_DeliveryAddress").val(data.deliveryAddress);
+                    }
+                },
+                error: (e) => {
+                }
+            })
+        }
+
+        const confirmOrder = () => {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SaveConfirmOrder","Order")',
+                data: $("#frmClient").serializeArray(),
+                success: (data) => {
+                    alert(data.message);
+                },
+                error: (e) => {
+                }
+            })
+        }
+
+    </script>
+
+}
